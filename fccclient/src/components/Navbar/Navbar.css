@@ -1,0 +1,110 @@
+.header {
+  background-color: navy;
+  height: 40px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0;
+}
+
+.search-container {
+  height: 30px;
+  width: 20%;
+  display: flex;
+  align-items: center;
+
+  margin-left: 10px;
+  border-radius: 5px;
+  background-color: rgba(128, 128, 128, 0.5);
+  /* Semi-transparent grey */
+  cursor: pointer;
+}
+
+.search-icon {
+  padding: 5px;
+}
+
+.search-icon svg {
+  width: 1rem;
+  height: 1rem;
+  fill: #eeeded;
+}
+
+.search-input {
+  border: none;
+  outline: none;
+  background-color: transparent;
+  flex: 1;
+  margin-left: 5px;
+}
+
+.logo {
+  position: absolute;
+  left: 600px;
+  font-family: "Roboto Condensed", sans-serif;
+  color: #eeeded;
+  font-size: 20px;
+}
+
+.menu-btn {
+  position: absolute;
+  right: 70px;
+  height: 30px;
+  background-color: navy;
+  color: white;
+  cursor: pointer;
+  border-radius: 3px;
+}
+
+.signin-btn {
+  height: 30px;
+  background-color: goldenrod;
+  cursor: pointer;
+  border-radius: 3px;
+  border: goldenrod;
+}
+
+.main-container {
+  position: absolute;
+  top: 15%;
+  left: 30%;
+  height: 60%;
+  width: 50%;
+  padding: 50px;
+}
+
+.some-text1 {
+  font-size: 30px;
+  font-family: "Roboto Condensed", sans-serif;
+  padding: 10px;
+}
+
+.some-text2 {
+  font-size: 20px;
+  font-family: "Roboto Condensed", sans-serif;
+  padding: 10px;
+}
+
+.icons-container {
+  display: flex;
+  padding-left: 60px;
+}
+
+.icons {
+  font-size: 30px;
+  padding: 20px 30px;
+}
+
+.getstarted {
+  height: 45px;
+  font-size: 25px;
+  font-family: "Roboto Condensed", sans-serif;
+  background-color: goldenrod;
+  border: goldenrod;
+  border-radius: 3px;
+  padding: 10px;
+  position: relative;
+  left: 160px;
+  top: 10px;
+}
