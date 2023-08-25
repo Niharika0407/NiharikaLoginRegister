@@ -4,11 +4,15 @@ import jwt_decode from "jwt-decode";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { signin, signup } from "../../actions/auth";
+import axios from "axios";
 
-const Auth = () => {
+const Auth = ({ childComponent }) => {
+  const [googleOrManual, setGoogleOrManual] = useState(true);
+
   let navigate = useNavigate();
   const initialState = {
-    name: "",
+    firstName: "",
+    lastName: "",
     email: "",
     password: "",
     confirmPassword: "",
@@ -18,14 +22,12 @@ const Auth = () => {
 
   const dispatch = useDispatch();
 
-  const generateUniqueId = () => {
-    const timestamp = new Date().getTime();
-    const randomId = Math.floor(Math.random() * 1000);
-    return `input_${timestamp}_${randomId}`;
-  };
   const handleChange = (e) => {
-    const inputId = generateUniqueId();
-    setFormData({ ...formData, [e.target.name]: e.target.value, id: inputId });
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
   };
 
   const handleSubmit = (e) => {
@@ -38,24 +40,30 @@ const Auth = () => {
   };
 
   const createOrGetUser = async (response) => {
-    const decoded= jwt_decode(response.credential);
-    const {name,picture,sub}=decoded;
-
-    const result = { name, picture, sub };
-    const token = sub;
+    const decoded = jwt_decode(response.credential);
+    const { name, picture, sub } = decoded;
+    const result = { name: name, picture: picture, sub: sub };
+    console.log(decoded);
 
     try {
-      dispatch({ type: "AUTH", data: { result, token } });
+      dispatch({ type: "AUTH", data: result });
       navigate("/");
     } catch (error) {
       console.log(error);
     }
-    console.log("This is g response",response.credential);
+
+    console.log("This is g response", response.credential);
   };
 
   const switchMode = () => {
     setIsSignUp((prevIsSignUp) => !prevIsSignUp);
   };
+
+  const handleManualClick = () => {
+    setGoogleOrManual(true);
+  };
+
+  childComponent(googleOrManual);
 
   return (
     <div>
@@ -67,28 +75,40 @@ const Auth = () => {
       >
         {isSignUp && (
           <>
-            <label for="name">Name:</label>
+            <label for="firstName">First Name:</label>
             <input
-              placeholder="Enter name"
+              placeholder="Enter First Name"
               type="text"
-              id="name"
-              name="name"
+              id="firstName"
+              name="firstName"
               onChange={handleChange}
+              value={formData.firstName}
+              required
+            ></input>
+            <label for="lastName">Last Name:</label>
+            <input
+              placeholder="Enter Last Name"
+              type="text"
+              id="lastName"
+              name="lastName"
+              onChange={handleChange}
+              value={formData.lastName}
               required
             ></input>
           </>
         )}
-        <br/>
+        <br />
         <label for="email">Email:</label>
         <input
           placeholder="Enter email"
           type="email"
           id="email"
           name="email"
+          value={formData.email}
           onChange={handleChange}
           required
         ></input>
-        <br/>
+        <br />
         <label for="password">Password:</label>
         <input
           placeholder="Enter Passowrd"
@@ -96,9 +116,10 @@ const Auth = () => {
           id="password"
           name="password"
           onChange={handleChange}
+          value={formData.password}
           required
         ></input>
-        <br/>
+        <br />
         {isSignUp && (
           <>
             <label for="confirmPassword">Confirm Password:</label>
@@ -108,16 +129,24 @@ const Auth = () => {
               id="confirmPassword"
               name="confirmPassword"
               onChange={handleChange}
+              value={formData.confirmPassword}
               required
             ></input>
           </>
         )}
-        <button type="submit">{isSignUp ? "SignUp" : "SignIn"}</button>
+        <br></br>
+        <br />
+        <button type="submit" onClick={handleManualClick}>
+          {isSignUp ? "SignUp" : "SignIn"}
+        </button>
         <br />
         <br />
 
         <GoogleLogin
-          onSuccess={(response) => createOrGetUser(response)}
+          onSuccess={(response) => {
+            setGoogleOrManual(false);
+            createOrGetUser(response);
+          }}
           onError={() => console.log("Error")}
         />
 
