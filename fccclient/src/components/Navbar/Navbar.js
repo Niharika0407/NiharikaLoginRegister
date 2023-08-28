@@ -28,7 +28,7 @@ const Navbar = ({ gOrM }) => {
     }
 
     setUser(JSON.parse(localStorage.getItem("profile")));
-  }, [location]);
+  }, [location,user]);
   return (
     <div>
       <div className="header">

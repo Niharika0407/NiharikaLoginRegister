@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { signin, signup } from "../../actions/auth";
 import axios from "axios";
+import './Auth.css'
 
 const Auth = ({ childComponent }) => {
   const [googleOrManual, setGoogleOrManual] = useState(true);
@@ -66,9 +67,10 @@ const Auth = ({ childComponent }) => {
   childComponent(googleOrManual);
 
   return (
-    <div>
-      <div>{isSignUp ? "Sign Up" : "Sign In"}</div>
+    <div className="auth-container">
+      <div className="auth-header">{isSignUp ? "Sign Up" : "Sign In"}</div>
       <form
+        className="auth-form"
         onSubmit={handleSubmit}
         method="POST"
         action={isSignUp ? "/signup" : "/signin"}
